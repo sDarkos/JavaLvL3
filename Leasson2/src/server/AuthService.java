@@ -55,13 +55,18 @@ public class AuthService {
         Connection connection = DatabaseConnection.getConnection();
 
         try {
+
+            connection.beginRequest();
+
             PreparedStatement statement = connection.prepareStatement("UPDATE users SET name = ? WHERE id = ? ");
             statement.setString(1, newNick);
             statement.setLong(2, id);
 
             statement.executeUpdate();
+            connection.commit();
 
         } catch (SQLException e) {
+            DatabaseConnection.rollback(connection);
             throw new RuntimeException(e);
         } finally {
             DatabaseConnection.connectionClose(connection);

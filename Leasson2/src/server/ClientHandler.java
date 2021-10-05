@@ -153,7 +153,6 @@ public class ClientHandler {
                 } else {
                     AuthService.rename(id, rename[1]);
                     name = rename[1];
-                    sendMessage("successfully");
                 }
             } else {
                 server.broadcastMessage(inBoundMessage, name);
