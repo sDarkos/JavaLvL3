@@ -20,4 +20,12 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
     }
+
+    public static void rollback(Connection connection){
+        try {
+            connection.rollback();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

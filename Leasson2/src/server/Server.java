@@ -11,8 +11,10 @@ public class Server {
     private ServerSocket serverSocket;
     private final List<ClientHandler> logonUsers;
     private final AuthService authService;
+    public final Logs logs;
 
     public Server() {
+        logs = new Logs();
         authService = new AuthService();
         logonUsers = new ArrayList<>();
 
@@ -48,6 +50,7 @@ public class Server {
 
     public void broadcastMessage(String message, String name){
         logonUsers.forEach(clientHandler -> clientHandler.sendMessage(name + ": " + message));
+        logs.write(name + ": " + message);
     }
 
     public  void whisperMessage(String message, String nick, ClientHandler user){
