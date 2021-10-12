@@ -5,6 +5,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -15,6 +17,7 @@ public class ClientHandler {
     private String name;
     private long id;
     private AtomicBoolean isAuth = new AtomicBoolean(false);
+    private int chatHistoryCount;
 
     public String getName() {
         return name;
@@ -101,6 +104,7 @@ public class ClientHandler {
                             sendMessage("Login OK...");
                             sendMessage("Welcome");
                             infoMessage();
+                            chatHistory();
                             server.broadcastMessage("User " + name + " entered chat", "CHAT");
                             server.subscribe(this);
                             return;
@@ -166,4 +170,13 @@ public class ClientHandler {
         sendMessage("/w -- written whisper message (/w NICK YOUR MESSAGE)");
         sendMessage("-exit -- exit chat");
     }
+
+    public void chatHistory(){
+        List<String> arrayList = server.logs.readLastCounts(chatHistoryCount);
+        for (String s : arrayList) {
+            sendMessage(s);
+        }
+
+    }
+
 }

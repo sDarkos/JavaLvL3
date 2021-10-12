@@ -1,6 +1,7 @@
 package client.gui;
 
 import javax.swing.*;
+import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.util.function.Consumer;
 
@@ -45,7 +46,14 @@ public class ChatFrame {
         chatArea = new JTextArea();
         chatArea.setEditable(false);
 
-        top.add(chatArea, BorderLayout.CENTER);
+        DefaultCaret caret = (DefaultCaret) chatArea.getCaret();
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
+        JScrollPane jScrollPane = new JScrollPane(chatArea);
+        jScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        jScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        top.add(jScrollPane, BorderLayout.CENTER);
         return top;
     }
 
